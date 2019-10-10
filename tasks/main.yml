@@ -4,6 +4,7 @@
   register: extendi_nodenv_installed_versions
   become: no
   changed_when: false
+  ignore_errors: yes
   check_mode: no
 
 - name: Clone nodenv repository
