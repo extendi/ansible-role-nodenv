@@ -1,3 +1,4 @@
 ---
 extendi_nodenv_version: 10.5.0
 extendi_nodenv_add_to_path: true
+extendi_nodenv_packages: []

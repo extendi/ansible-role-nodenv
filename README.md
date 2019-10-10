@@ -19,6 +19,10 @@ node version to install
 
 add nodenv to path
 
+    extendi_nodenv_packages: []
+
+nodenv packages to install
+
 Dependencies
 ------------
 

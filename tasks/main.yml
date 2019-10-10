@@ -43,3 +43,12 @@
       eval "$(nodenv init -)"
   become: no
   when: extendi_nodenv_add_to_path
+
+- name: install nodenv packages
+  npm:
+    name: "{{ item }}"
+    state: present
+    global: yes
+    executable: "$HOME/.nodenv/shims/npm"
+  become: no
+  loop: "{{ extendi_nodenv_packages }}"
