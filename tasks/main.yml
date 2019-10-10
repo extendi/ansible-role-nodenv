@@ -1,0 +1,44 @@
+---
+- name: Get nodenv versions list
+  shell: ~/.nodenv/bin/nodenv versions
+  register: extendi_nodenv_installed_versions
+  become: no
+  changed_when: false
+  check_mode: no
+
+- name: Clone nodenv repository
+  git:
+    repo: "{{ item.repo }}"
+    dest: "{{ item.path }}"
+    update: yes
+  become: no
+  with_items:
+    - { repo: 'https://github.com/nodenv/nodenv.git', path: '~/.nodenv' }
+    - { repo: 'https://github.com/nodenv/node-build.git', path: '~/.nodenv/plugins/node-build' }
+  when: "extendi_nodenv_version not in extendi_nodenv_installed_versions.stdout or 'FAILED' in extendi_nodenv_installed_versions.stderr"
+
+- name: Install specified version of node.js
+  shell: "~/.nodenv/bin/nodenv install {{ extendi_nodenv_version }}"
+  become: no
+  when: "extendi_nodenv_version not in extendi_nodenv_installed_versions.stdout or 'FAILED' in extendi_nodenv_installed_versions.stderr"
+
+- name: Get nodenv global
+  shell: ~/.nodenv/bin/nodenv global
+  register: extendi_nodenv_global_version
+  become: no
+  changed_when: false
+  check_mode: no
+
+- name: Set global version of node.js
+  shell: "~/.nodenv/bin/nodenv global {{ extendi_nodenv_version }}"
+  become: no
+  when: "extendi_nodenv_version != extendi_nodenv_global_version.stdout"
+
+- name: Set env variables in ~/.profile
+  blockinfile:
+    path: ~/.profile
+    block: |
+      export PATH="$HOME/.nodenv/bin:$PATH"
+      eval "$(nodenv init -)"
+  become: no
+  when: extendi_nodenv_add_to_path
