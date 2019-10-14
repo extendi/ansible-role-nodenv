@@ -15,6 +15,10 @@ Role Variables
 
 node version to install
 
+    extendi_nodenv_user: root
+
+install nodenv for this user
+
     extendi_nodenv_add_to_path: true
 
 add nodenv to path
