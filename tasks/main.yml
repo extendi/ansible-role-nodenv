@@ -42,10 +42,11 @@
 
     - name: install nodenv packages
       npm:
-        name: "{{ item }}"
+        name: "{{ item.split(':').0 }}"
         state: present
         global: yes
         executable: "$HOME/.nodenv/shims/npm"
+        version: "{{ item.split(':').1|default('') }}"
       loop: "{{ extendi_nodenv_packages }}"
   become: yes
   become_user: "{{ extendi_nodenv_user }}"

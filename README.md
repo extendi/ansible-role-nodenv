@@ -25,7 +25,8 @@ add nodenv to path
 
     extendi_nodenv_packages: []
 
-nodenv packages to install
+nodenv packages to install.
+It supports colon syntax to select version to install (e.g. `pm2:2.10.0`)
 
 Dependencies
 ------------
